@@ -11,11 +11,12 @@ import (
 )
 
 type Storage interface {
-	CreateUser(*user.User)
-	UpdateAge()
-	DeleteUser()
-	GetFriends()
-	MakeFriends(user1 int, user2 int) [2]string
+	CreateDB()
+	GetFriends(userId int) (friends []int, err error)
+	MakeFriends(user1 int, user2 int) (friends [2]string, err error)
+	CreateUser(u *user.User) int
+	UpdateAge(userId int, newAge int) error
+	DeleteUser(uId int) (username string, err error)
 }
 
 type MainSotrage struct {

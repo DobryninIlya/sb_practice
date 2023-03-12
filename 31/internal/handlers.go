@@ -36,6 +36,9 @@ type AnswerFriends struct {
 type NewAge struct {
 	Age int `json:"new_age"`
 }
+type UserCreator interface {
+	CreateUser(u *user.User) int
+}
 
 func Create(w http.ResponseWriter, r *http.Request) {
 	fmt.Println("create method")
@@ -54,6 +57,7 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	newUserId := st.Repository.CreateUser(&u)
+	//newUserId := st.Storage.CreateUser(&u)
 
 	ans := AnswerCreate{newUserId}
 	answer, err := json.Marshal(ans)

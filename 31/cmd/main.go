@@ -5,6 +5,8 @@ import (
 	"github.com/go-chi/chi"
 	"log"
 	handlers "main.go/internal"
+	createHandler "main.go/internal/handlers"
+	"main.go/internal/storage"
 	"net/http"
 	"os"
 	"os/signal"
@@ -29,7 +31,7 @@ func NewApp() *App {
 func (a *App) run(port string) {
 	//a.router.Post("/user", createUser.Create)
 	a.router.Route("/users", func(r chi.Router) {
-		r.Post("/", handlers.Create) // POST /users
+		r.Post("/", createHandler.New(storage.Repository)) // POST /users
 		r.Route("/{userId}", func(r chi.Router) {
 			r.Post("/make_friends", handlers.MakeFriends)
 			r.Delete("/", handlers.Delete)
