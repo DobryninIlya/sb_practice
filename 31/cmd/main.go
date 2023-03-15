@@ -4,8 +4,11 @@ import (
 	"fmt"
 	"github.com/go-chi/chi"
 	"log"
-	handlers "main.go/internal"
-	createHandler "main.go/internal/handlers"
+	createHandler "main.go/internal/handlers/create"
+	deleteHandler "main.go/internal/handlers/delete"
+	getFriendsHandler "main.go/internal/handlers/get_friends"
+	makeFriendsHandler "main.go/internal/handlers/make_friends"
+	updateAgeHandler "main.go/internal/handlers/update_age"
 	"main.go/internal/storage"
 	"net/http"
 	"os"
@@ -33,10 +36,10 @@ func (a *App) run(port string) {
 	a.router.Route("/users", func(r chi.Router) {
 		r.Post("/", createHandler.New(storage.Repository)) // POST /users
 		r.Route("/{userId}", func(r chi.Router) {
-			r.Post("/make_friends", handlers.MakeFriends)
-			r.Delete("/", handlers.Delete)
-			r.Get("/friends", handlers.GetFriends)
-			r.Patch("/age", handlers.UpdateAge)
+			r.Post("/make_friends", makeFriendsHandler.New(storage.Repository))
+			r.Delete("/", deleteHandler.New(storage.Repository))
+			r.Get("/friends", getFriendsHandler.New(storage.Repository))
+			r.Patch("/age", updateAgeHandler.New(storage.Repository))
 		})
 	})
 	var wg sync.WaitGroup

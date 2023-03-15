@@ -34,7 +34,7 @@ func (ms *MainSotrage) CreateDB() {
 }
 
 func (ms *MainSotrage) GetFriends(userId int) (friends []int, err error) {
-	sqlQuery := fmt.Sprintf("SELECT Friend.user_id FROM Friend JOIN Users WHERE Users.id = %v", userId)
+	sqlQuery := fmt.Sprintf("SELECT friend FROM Friend WHERE user_id = %v", userId)
 	rows, err := ms.db.Query(sqlQuery)
 	if err != nil {
 		log.Fatal(err)
